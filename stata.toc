@@ -1,4 +1,4 @@
 v 1
-d My Command Package
-d A simple Stata command written by Raoul C Reulen
+d My Stata Tools
+d Tools by Raoul Reulen
 p smraer smraer.ado smraer.sthlp
