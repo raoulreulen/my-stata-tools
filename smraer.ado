@@ -1,7 +1,8 @@
-*! version 1.5 RCR - SMRAER
+*! version 1.7 RCR - SMRAER
 cap program drop smraer
 program define smraer, sortpreserve
-syntax varlist(min=3 max=3 numeric) [, dessmr(integer 1) desaer(integer 1) LABel(varname)]
+syntax varlist(min=3 max=3 numeric) [, dessmr(integer 1) desaer(integer 1) ///
+                                       LABel(varname) pyrsper(integer 1)]
 
 	tokenize `varlist'
 
@@ -22,12 +23,12 @@ syntax varlist(min=3 max=3 numeric) [, dessmr(integer 1) desaer(integer 1) LABel
 		* AER (exact Poisson confidence intervals derived from obs CI)
 		*
 		* CI for observed events: [invgammap(O, 0.025), invgammap(O+1, 0.975)]
-		* AER CI follows by subtracting E and dividing by person-years.
-		* This is correct whether AER is positive OR negative (obs < exp).
+		* AER CI follows by subtracting E, dividing by raw person-years, and
+		* scaling by pyrsper. Correct whether AER is positive OR negative.
 		*-----------------------------------------------------------------------
-		gen aer   =  (`obs'          - `exp') / `pyrs'
-		gen aerll =  (invgammap(`obs',       0.025) - `exp') / `pyrs'
-		gen aerul =  (invgammap(`obs' + 1,   0.975) - `exp') / `pyrs'
+		gen aer   =  (`obs'                          - `exp') / `pyrs' * `pyrsper'
+		gen aerll =  (invgammap(`obs',       0.025)  - `exp') / `pyrs' * `pyrsper'
+		gen aerul =  (invgammap(`obs' + 1,   0.975)  - `exp') / `pyrs' * `pyrsper'
 
 		*-----------------------------------------------------------------------
 		* String presentation — strtrim() removes leading spaces for compact output
@@ -51,15 +52,21 @@ syntax varlist(min=3 max=3 numeric) [, dessmr(integer 1) desaer(integer 1) LABel
 		gen str strobsperc = strtrim(string(`obs')) + " (" ///
 		                   + strtrim(string((`obs' / `obs'[1]) * 100, "%9.1f")) + "%)"
 
-		* crude observed rate per 100,000 person-years (pyrs already in 100,000s)
-		gen str obsrate = strtrim(string(`obs' / `pyrs', "%9.1f"))
+		* crude observed rate per pyrsper person-years
+		gen str obsrate = strtrim(string(`obs' / `pyrs' * `pyrsper', "%9.1f"))
 
-		replace obsexp     = "" if obsexp     == "./."
-		replace smrstr     = "" if smr        == .
-		replace aerstr     = "" if aer        == .
-		replace strobsperc = "" if `obs'      == .
-		replace obsrate    = "" if `obs'      == .
+		replace obsexp     = "" if obsexp == "./."
+		replace smrstr     = "" if smr    == .
+		replace aerstr     = "" if aer    == .
+		replace strobsperc = "" if `obs'  == .
+		replace obsrate    = "" if `obs'  == .
 	}
+
+	*---------------------------------------------------------------------------
+	* Format pyrsper for display (e.g. 100000 → "100,000")
+	*---------------------------------------------------------------------------
+	local pyrslab : display %12.0gc `pyrsper'
+	local pyrslab = strtrim("`pyrslab'")
 
 	*---------------------------------------------------------------------------
 	* Print results table to Stata results window
@@ -123,6 +130,6 @@ syntax varlist(min=3 max=3 numeric) [, dessmr(integer 1) desaer(integer 1) LABel
 		}
 	}
 	di as text "{hline `twd'}"
-	di as text " * rate per 100,000 person-years"
+	di as text " * rate per `pyrslab' person-years"
 
 end

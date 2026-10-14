@@ -1,5 +1,5 @@
 {smcl}
-{* ! version 1.1 RCR - SMRAER}{...}
+{* ! version 1.7 RCR - SMRAER}{...}
 {* March 26, 2025}{...}
 {cmd:help smraer}{right:Version 1.1 (March 26, 2025)}
 {hline}
@@ -12,7 +12,7 @@
 {title:Syntax}
 
 {phang}
-{cmd:smraer} {it:varlist} [{cmd:,} {opt dessmr(#)} {opt desaer(#)}]{p_end}
+{cmd:smraer} {it:varlist} [{cmd:,} {opt dessmr(#)} {opt desaer(#)} {opt lab:el(varname)} {opt pyrsper(#)}]{p_end}
 
 {phang}
 where {it:varlist} must contain exactly three numeric variables in this order:{p_end}
@@ -28,6 +28,12 @@ where {it:varlist} must contain exactly three numeric variables in this order:{p
 
 {phang}
 {opt desaer(#)} specifies the number of decimal places for AER results in the output string. Default is 1.{p_end}
+
+{phang}
+{opt label(varname)} variable used to label output rows.{p_end}
+
+{phang}
+{opt pyrsper(#)} scales AER and the crude observed rate to events per # person-years, using raw person-years (e.g. {cmd:pyrsper(100000)}). Default is 1, i.e. rates per person-year. Earlier versions (1.5) assumed person-years already expressed in units of 100,000.{p_end}
 
 {title:Description}
 
