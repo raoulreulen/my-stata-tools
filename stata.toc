@@ -1,5 +1,5 @@
-v 1
+v 3
 d My Stata Tools
 d Tools by Raoul Reulen
-p smraer smraer.ado smraer.sthlp
-p stexpectcr stexpectcr.ado stexpectcr.sthlp
+p smraer SMRs and absolute excess risks with exact CIs
+p stexpectcr Expected cumulative incidence allowing for competing mortality

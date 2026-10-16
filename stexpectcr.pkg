@@ -1,0 +1,9 @@
+v 3
+d stexpectcr. Expected cumulative incidence allowing for the competing risk of death
+d Ederer I, Ederer II (conditional, allows late entry) and Hakulinen methods; companion to stexpect.
+d Requires Stata 14 or later, stset data with an id() variable, and two reference rates
+d (event incidence rate and all-cause mortality rate) merged onto the split records.
+d Author: Raoul Reulen
+d Distribution-Date: 20261016
+f stexpectcr.ado
+f stexpectcr.sthlp

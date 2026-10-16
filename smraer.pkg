@@ -1,0 +1,6 @@
+v 3
+d smraer. Standardized mortality/incidence ratios and absolute excess risks with exact confidence intervals
+d Author: Raoul Reulen
+d Distribution-Date: 20261016
+f smraer.ado
+f smraer.sthlp

@@ -12,7 +12,8 @@
 *! Data requirements (same logic as stexpect):
 *!   - stset with an id() variable; records split (stsplit) so that ratevar and
 *!     mratevar are constant within each record; rates are per unit of _t.
-*!   - records within id contiguous from time 0 (no late entry, no gaps).
+*!   - methods 1 and 3: records within id contiguous from time 0 (no late entry, no gaps);
+*!     method 2 (Ederer II) allows late entry, e.g. attained-age time scale.
 *!   - method(1) Ederer I: every individual must have records through max(at()).
 *!   - method(3) Hakulinen (default): individuals contribute while their
 *!     POTENTIAL follow-up (end of last record) has not been reached.
